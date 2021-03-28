@@ -1,39 +1,54 @@
 import Head from "next/head";
 import styles from "../styles/Home.module.css";
-import Nav from '../components/nav/nav'
 import Stat1 from '../components/stats/Stat1'
 import HardwareTable from '../components/hardware/HardwareTable'
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 export default function Home() {
-  const [clicked, setClicked] = useState(false)
 
-  const changeComp = () => {
-      if (clicked === false){
-        setClicked(true)
-      } else {
-        setClicked(false)
-      }
-      console.log(clicked)
-  }
+  const [isActive, setisActive] = useState('home')
+
+  useEffect(() => {
+    changeComponent()
+    
+  }, [setisActive])
+
+    const changeComponent = () => {
+
+
+    }
 
   return (
-
-      
 <div>
-    <Nav stat1 GPU />
-    <div className={styles.container}>
+<div className="">
+            <nav className="relative z-0 rounded-lg shadow flex divide-x divide-gray-200" aria-label="Tabs">
+            {/* Current: "text-gray-900", Default: "text-gray-500 hover:text-gray-700" */}
+            <div onClick={() => setisActive('home')} className={`${isActive === 'home' ? 'text-gray-900' : 'text-gray-500 hover:text-gray-700'} rounded-l-lg group relative min-w-0 flex-1 overflow-hidden bg-white py-4 px-4 text-sm font-medium text-center hover:bg-gray-50 focus:z-10` } aria-current="page">
+                    <span>Home</span>
+                    <span aria-hidden="true" className={`${isActive === 'home' ? 'bg-indigo-500' : 'text-gray-500 hover:text-gray-700'} absolute inset-x-0 bottom-0 h-0.5`}></span>
+            </div>
+            <div onClick={() => setisActive('GPU')} className={`${isActive === 'GPU' ? 'text-gray-900' : 'text-gray-500 hover:text-gray-700'} group relative min-w-0 flex-1 overflow-hidden bg-white py-4 px-4 text-sm font-medium text-center hover:bg-gray-50 focus:z-10`} >
+                <span>GPUs</span>
+                <span aria-hidden="true" className={`${isActive === 'GPU' ? 'bg-indigo-500' : 'text-gray-500 hover:text-gray-700'} absolute inset-x-0 bottom-0 h-0.5`}></span>
+            </div>
+            <a  className="text-gray-500 hover:text-gray-700 group relative min-w-0 flex-1 overflow-hidden bg-white py-4 px-4 text-sm font-medium text-center hover:bg-gray-50 focus:z-10">
+              <span>Team Members</span>
+              <span aria-hidden="true" className="bg-transparent absolute inset-x-0 bottom-0 h-0.5"></span>
+            </a>
+            <a  className="text-gray-500 hover:text-gray-700 rounded-r-lg group relative min-w-0 flex-1 overflow-hidden bg-white py-4 px-4 text-sm font-medium text-center hover:bg-gray-50 focus:z-10">
+              <span>Billing</span>
+              <span aria-hidden="true" className="bg-transparent absolute inset-x-0 bottom-0 h-0.5"></span>
+            </a>
+          </nav>
+        </div>    <div className={styles.container}>
       <Head>
         <title>Project C</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <button onClick={() => {changeComp()}} type="button" className="mb-5 inline-flex items-center px-4 py-2 border border-transparent text-base font-medium rounded-md text-indigo-700 bg-indigo-100 hover:bg-indigo-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
-      Switch
-    </button>
+      {isActive === 'home' ? <Stat1/> : null}
+      {isActive === 'GPU' ? <HardwareTable/> : null}
 
-      {stat1 ? <Stat1/> : null  }
-      {GPU ? <HardwareTable/> : null  }
 
 
     </div>
