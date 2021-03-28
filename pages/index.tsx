@@ -1,8 +1,9 @@
 import Head from "next/head";
 import styles from "../styles/Home.module.css";
+import Nav from '../components/nav/nav'
 import Stat1 from '../components/stats/Stat1'
 import HardwareTable from '../components/hardware/HardwareTable'
-import { useState } from "react";
+import React, { useState } from "react";
 
 export default function Home() {
   const [clicked, setClicked] = useState(false)
@@ -19,7 +20,8 @@ export default function Home() {
   return (
 
       
-
+<div>
+    <Nav stat1 GPU />
     <div className={styles.container}>
       <Head>
         <title>Project C</title>
@@ -30,8 +32,11 @@ export default function Home() {
       Switch
     </button>
 
-      {clicked ? <HardwareTable/> : <Stat1/>}
+      {stat1 ? <Stat1/> : null  }
+      {GPU ? <HardwareTable/> : null  }
 
+
+    </div>
     </div>
   );
 }

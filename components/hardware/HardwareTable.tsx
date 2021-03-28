@@ -1,4 +1,4 @@
-const axios = require('axios');
+import axios from 'axios'
 import React, { useEffect, useState } from 'react'
 
 
@@ -15,6 +15,9 @@ export default function HardwareTable(){
   useEffect(() => {
     getData()
   }, [])
+  setInterval(() => {
+    getData();
+  }, 5000);
 
   const [hardware, setHardware] = useState([])
 
@@ -45,7 +48,6 @@ export default function HardwareTable(){
                         
                           <p>
                             Jobs done: {gpu.accepted} Hashrate: {gpu.speed} Fan speed: {gpu.fan}
-
                           </p>
                         </div>
                       </div>
@@ -56,28 +58,15 @@ export default function HardwareTable(){
                 </div>
               </a>
             </li>
-        
-        
-        
-          
           </ul>
         </div>
-
-
-
         ))
-
         )
 
     })
-  
-    setTimeout(() => {
-      getData();
-    }, 5000);
   }
 
     return (
-   
       <>
       {hardware}
       </>

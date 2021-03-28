@@ -1,11 +1,14 @@
 
-const axios = require('axios');
+import axios from 'axios'
 import React, { useEffect, useState } from 'react'
 
 export default function Stat1(props){
 useEffect(() => {
   getData()
 }, [])
+setInterval(() => {
+  getData();
+}, 5000);
 
   const getData = () => {
     axios.get('https://api.minerstat.com/v2/stats/vegl2iu7ov3b')
@@ -24,9 +27,7 @@ useEffect(() => {
         setStatus(status)
         setMonthlyEstimatedRevenue(usd_month)
     })
-    setTimeout(() => {
-      getData();
-    }, 5000);
+  
 
   }
 const [currentHashrate, setCurrentHashrate] = useState(0)
