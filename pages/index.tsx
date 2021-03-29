@@ -2,13 +2,18 @@ import Head from "next/head";
 import styles from "../styles/Home.module.css";
 import Stat1 from '../components/stats/Stat1'
 import HardwareTable from '../components/hardware/HardwareTable'
+import MinerHistory from '../components/history/MinerHistory'
 import React, { useEffect, useState } from "react";
 
-export default function Home() {
 
+
+
+export default function Home() {
   const [isActive, setisActive] = useState('home')
 
   useEffect(() => {
+ 
+  
     changeComponent()
     
   }, [setisActive])
@@ -31,14 +36,14 @@ export default function Home() {
                 <span>GPUs</span>
                 <span aria-hidden="true" className={`${isActive === 'GPU' ? 'bg-indigo-500' : 'text-gray-500 hover:text-gray-700'} absolute inset-x-0 bottom-0 h-0.5`}></span>
             </div>
-            <a  className="text-gray-500 hover:text-gray-700 group relative min-w-0 flex-1 overflow-hidden bg-white py-4 px-4 text-sm font-medium text-center hover:bg-gray-50 focus:z-10">
-              <span>Team Members</span>
-              <span aria-hidden="true" className="bg-transparent absolute inset-x-0 bottom-0 h-0.5"></span>
-            </a>
-            <a  className="text-gray-500 hover:text-gray-700 rounded-r-lg group relative min-w-0 flex-1 overflow-hidden bg-white py-4 px-4 text-sm font-medium text-center hover:bg-gray-50 focus:z-10">
+            <div onClick={() => setisActive('history')} className={`${isActive === 'history' ? 'text-gray-900' : 'text-gray-500 hover:text-gray-700'} group relative min-w-0 flex-1 overflow-hidden bg-white py-4 px-4 text-sm font-medium text-center hover:bg-gray-50 focus:z-10`}>
+              <span>History</span>
+              <span aria-hidden="true" className={`${isActive === 'history' ? 'bg-indigo-500' : 'text-gray-500 hover:text-gray-700'} absolute inset-x-0 bottom-0 h-0.5`}></span>
+            </div>
+            <div  className="text-gray-500 hover:text-gray-700 rounded-r-lg group relative min-w-0 flex-1 overflow-hidden bg-white py-4 px-4 text-sm font-medium text-center hover:bg-gray-50 focus:z-10">
               <span>Billing</span>
               <span aria-hidden="true" className="bg-transparent absolute inset-x-0 bottom-0 h-0.5"></span>
-            </a>
+            </div>
           </nav>
         </div>    <div className={styles.container}>
       <Head>
@@ -48,6 +53,8 @@ export default function Home() {
 
       {isActive === 'home' ? <Stat1/> : null}
       {isActive === 'GPU' ? <HardwareTable/> : null}
+      {isActive === 'history' ? <MinerHistory/> : null}
+
 
 
 

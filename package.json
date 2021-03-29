@@ -11,6 +11,7 @@
     "@headlessui/react": "^0.3.1",
     "@tailwindcss/forms": "^0.3.2",
     "axios": "^0.21.1",
+    "ethermine-api": "^1.0.6",
     "next": "10.0.9",
     "node-ssh": "^11.1.1",
     "react": "17.0.2",

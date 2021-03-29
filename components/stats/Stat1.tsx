@@ -2,13 +2,11 @@
 import axios from 'axios'
 import React, { useEffect, useState } from 'react'
 
-export default function Stat1(props){
+export default function Stat1(){
 useEffect(() => {
   getData()
 }, [])
-setInterval(() => {
-  getData();
-}, 5000);
+
 
   const getData = () => {
     axios.get('https://api.minerstat.com/v2/stats/vegl2iu7ov3b')
@@ -19,13 +17,17 @@ setInterval(() => {
       const { hashrate } = mining.hashrate
       const { usd_month } = revenue
       // handle success
-    
+      console.log(status)
 
 
         setCurrentHashrate(hashrate)
         setUptime(uptime)
         setStatus(status)
         setMonthlyEstimatedRevenue(usd_month)
+
+        setTimeout(() => {
+          getData()
+        }, 5000);
     })
   
 
@@ -34,13 +36,16 @@ const [currentHashrate, setCurrentHashrate] = useState(0)
 const [uptime, setUptime] = useState('Unknown')
 const [status, setStatus] = useState('Offline')
 const [monthlyEstimatedRevenue, setMonthlyEstimatedRevenue] = useState(0)
-
+// setInterval(() => {
+//   getData();
+// }, 5000);
     return (
       <div>
 
         <h3 className="text-lg leading-6 font-medium text-gray-900">
           Project C stats
         </h3>
+        <button onClick={() => getData()}>refresh</button>
         <dl className="mt-5 grid grid-cols-1 gap-5 sm:grid-cols-3">
         <div className="px-4 py-5 bg-white shadow rounded-lg overflow-hidden sm:p-6">
             <dt className="text-sm font-medium text-gray-500 truncate">

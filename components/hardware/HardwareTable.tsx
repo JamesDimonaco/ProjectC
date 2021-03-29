@@ -27,8 +27,9 @@ export default function HardwareTable(){
     axios.get('https://api.minerstat.com/v2/stats/vegl2iu7ov3b')
     .then(function (response) {
       const { PROJECTC } = response.data
+      console.log(PROJECTC.hardware)
       // handle success
-        return setHardware(PROJECTC.hardware.map((gpu: hardware) => (
+          setHardware(PROJECTC.hardware.map((gpu: hardware) => (
           <div className="bg-white shadow overflow-hidden sm:rounded-md mb-5">
           <ul className="divide-y divide-gray-200">
             <li>
