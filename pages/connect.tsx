@@ -17,8 +17,8 @@ export default function connect() {
         .then((result) =>  {
           const credential = result.credential;
           const user = result.user;    
-          const accessToken = credential.accessToken;
-          const idToken = credential.idToken
+          // const accessToken = credential.accessToken;
+          // const idToken = credential.idToken
 
           console.log()
 
