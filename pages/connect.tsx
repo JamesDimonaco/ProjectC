@@ -2,11 +2,14 @@ import Head from "next/head";
 import Link from "next/link";
 import { googleAuthProvider, auth } from "../lib/firebase";
 import styles from "../styles/Home.module.css";
+import { useContext, useEffect } from 'react'
+import { UserContext } from '../lib/context'
 
 
 export default function connect() {
-    const user = null;
-    const username = null;
+    const {user} = useContext(UserContext)
+
+   
 
     function SignInButtton():JSX.Element {
     const signInWithGoogle = async () => {
@@ -18,6 +21,16 @@ export default function connect() {
             </button>
         )
     }
+
+    function SignOut() {
+      return(
+        <button onClick={() => auth.signOut()} className="relative inline-flex items-center px-4 py-2 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+          Sign out
+        </button>
+      )
+    }
+
+   
 
 
     return (
@@ -33,7 +46,7 @@ export default function connect() {
       <div className="-ml-4 -mt-2 flex items-center justify-between flex-wrap sm:flex-nowrap">
         <div className="ml-4 mt-2">
           <h3 className="text-lg leading-6 font-medium text-gray-900">
-            Job Postings
+            {user === null ? <p>Welcome</p> : <p>Welcome {user.displayName}</p>}
           </h3>
         </div>
         
@@ -49,7 +62,7 @@ export default function connect() {
             </span>
           </button>
           </Link>
-            <SignInButtton/>
+          {user === null ? <SignInButtton/> : <SignOut/>}
 
         </div>
       </div>
