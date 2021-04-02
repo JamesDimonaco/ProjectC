@@ -12,10 +12,12 @@
     "@tailwindcss/forms": "^0.3.2",
     "axios": "^0.21.1",
     "ethermine-api": "^1.0.6",
+    "firebase": "^8.3.2",
     "next": "10.0.9",
     "node-ssh": "^11.1.1",
     "react": "17.0.2",
-    "react-dom": "17.0.2"
+    "react-dom": "17.0.2",
+    "react-firebase-hooks": "^3.0.3"
   },
   "devDependencies": {
     "@types/node": "^14.14.37",
