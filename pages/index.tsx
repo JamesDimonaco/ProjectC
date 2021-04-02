@@ -13,7 +13,7 @@ import axios from 'axios'
 //'https://api.minerstat.com/v2/stats/vegl2iu7ov3b'
 
 
-export async function getStaticProps(context) {
+export async function getServerSideProps(context) {
   const asyncResponse = await axios.get("https://api.minerstat.com/v2/stats/vegl2iu7ov3b");
   const { PROJECTC } = asyncResponse.data
   return {
