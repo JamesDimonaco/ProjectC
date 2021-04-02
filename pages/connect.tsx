@@ -2,7 +2,7 @@ import Head from "next/head";
 import Link from "next/link";
 import { googleAuthProvider, auth } from "../lib/firebase";
 import styles from "../styles/Home.module.css";
-import { useContext, useEffect } from 'react'
+import { useContext } from 'react'
 import { UserContext } from '../lib/context'
 
 
@@ -14,6 +14,26 @@ export default function connect() {
     function SignInButtton():JSX.Element {
     const signInWithGoogle = async () => {
         await auth.signInWithPopup(googleAuthProvider)
+        .then((result) =>  {
+          const credential = result.credential;
+          const user = result.user;    
+          const accessToken = credential.accessToken;
+          const idToken = credential.idToken
+
+          console.log()
+
+
+          
+        }).catch((error) => {
+           auth.signInWithRedirect(googleAuthProvider)
+          const errorCode = error.code;
+          const errorMessage = error.message;
+          // The email of the user's account used.
+          const email = error.email;
+          // The firebase.auth.AuthCredential type that was used.
+          const credential = error.credential;
+          
+        })
         }
         return(
             <button onClick={signInWithGoogle} type="button" className="relative inline-flex items-center px-4 py-2 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
