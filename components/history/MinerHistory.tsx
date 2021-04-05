@@ -11,7 +11,7 @@ interface history {
     invalidShares: number
   }
 
-export default function MinerHistory(toggleEnabled){
+export default function MinerHistory(){
     const miner = '0x80674294Ff952992e4F04744CeddB9AcD09B37b6'
     const worker = 'projectc'
     
@@ -24,7 +24,7 @@ export default function MinerHistory(toggleEnabled){
     const getData = () => {
         axios.get(`https://api.ethermine.org/miner/${miner}/worker/${worker}/history`)
         .then((response) => {      
-            console.log(response.data.data[0])     
+            console.log(response.data)     
     
             setHistory(response.data.data.map( (e : history) => (
     <div className="mb-6 bg-white shadow overflow-hidden sm:rounded-md">
