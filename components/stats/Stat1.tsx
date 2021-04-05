@@ -1,15 +1,29 @@
 
 import React, { useEffect, useState } from 'react'
 
-export default function Stat1({PROJECTC}){
+
+
+
+export default function Stat1({PROJECTC,conversion_result}){
+
+
+ 
+  
+
+
   const { info, mining, revenue} =  PROJECTC
   const { uptime, status } = info
   const { hashrate } = mining.hashrate
   const { usd_month } = revenue
 
+
+
+
+
   const [component, setComponent] = useState<JSX.Element>()
   useEffect(() => {
     getData()
+    console.log()
     
   }, [])
 
@@ -50,11 +64,19 @@ export default function Stat1({PROJECTC}){
             
                 <div className="px-4 py-5 bg-white shadow rounded-lg overflow-hidden sm:p-6">
                   <dt className="text-sm font-medium text-gray-500 truncate">
+                  monthly estimated revenue (GBP)
+                  </dt>
+                  <dd className="mt-1 text-3xl font-semibold text-gray-900">
+                    £{conversion_result.toFixed(2)} <p/>
+                  </dd>
+                  <dt className="text-sm font-medium text-gray-500 truncate">
                   monthly estimated revenue (USD)
                   </dt>
                   <dd className="mt-1 text-3xl font-semibold text-gray-900">
-                    {usd_month}
+                  ${usd_month.toFixed(2)}
+
                   </dd>
+
                 </div>
               </dl>
             </div>

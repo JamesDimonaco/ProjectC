@@ -10,22 +10,34 @@ import Link from 'next/link';
 
 import axios from 'axios'
 
-//'https://api.minerstat.com/v2/stats/vegl2iu7ov3b'
+
 
 
 export async function getServerSideProps(context) {
-  const asyncResponse = await axios.get("https://api.minerstat.com/v2/stats/vegl2iu7ov3b");
+  
+  const asyncResponse = await axios.get("https://api.minerstat.com/v2/stats/vegl2iu7ov3b")
   const { PROJECTC } = asyncResponse.data
+  const { usd_month } =  PROJECTC.revenue
+  const API_KEY = 'ff1e6a7dd75bf48d6bab03f9'
+  const asyncGBPResponse = await axios.get(`https://v6.exchangerate-api.com/v6/${API_KEY}/pair/USD/GBP/${usd_month}`)
+  const { conversion_result } = asyncGBPResponse.data
+
+  
   return {
     props: {
       PROJECTC: PROJECTC,
+      conversion_result: conversion_result,
+
     }
   }
+
+  
 }
 
 export default function Home(props) {
 
   const { PROJECTC } = props;
+  const { conversion_result } = props
   const [isActive, setisActive] = useState('home')
 
 
@@ -60,7 +72,7 @@ export default function Home(props) {
           <link rel="icon" href="/favicon.ico" />
         </Head>
 
-        {isActive === 'home' ? <Stat1 PROJECTC={PROJECTC} /> : isActive === 'GPU' ? <HardwareTable PROJECTC={PROJECTC} /> : null}
+        {isActive === 'home' ? <Stat1 conversion_result={conversion_result} PROJECTC={PROJECTC} /> : isActive === 'GPU' ? <HardwareTable PROJECTC={PROJECTC} /> : null}
         {/*  <MinerHistory toggleEnabled/>} */}
 
 
