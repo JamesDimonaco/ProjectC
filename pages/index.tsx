@@ -14,9 +14,14 @@ import axios from 'axios'
 
 
 export async function getServerSideProps(context) {
-  
+  const etherResponse = await axios.get('https://api.coingecko.com/api/v3/simple/price?ids=ethereum&vs_currencies=gbp%2Cusd')
+  console.log(etherResponse.data.ethereum.gbp);
+  const { gbp } = etherResponse.data.ethereum;
+  const { usd } = etherResponse.data.ethereum;
+
   const asyncResponse = await axios.get("https://api.minerstat.com/v2/stats/vegl2iu7ov3b")
   const { PROJECTC } = asyncResponse.data
+
   const { usd_month } =  PROJECTC.revenue
   const API_KEY = 'ff1e6a7dd75bf48d6bab03f9'
   const asyncGBPResponse = await axios.get(`https://v6.exchangerate-api.com/v6/${API_KEY}/pair/USD/GBP/${usd_month}`)
@@ -27,6 +32,9 @@ export async function getServerSideProps(context) {
     props: {
       PROJECTC: PROJECTC,
       conversion_result: conversion_result,
+      gbpToEth: gbp,
+      usdToEth: usd,
+
 
     }
   }
@@ -37,8 +45,9 @@ export async function getServerSideProps(context) {
 export default function Home(props) {
 
   const { PROJECTC } = props;
-  const { conversion_result } = props
-  const [isActive, setisActive] = useState('home')
+  const { conversion_result } = props;
+  const { gbpToEth, usdToEth } = props;
+  const [isActive, setisActive] = useState('home');
 
 
   return (
@@ -65,15 +74,32 @@ export default function Home(props) {
             </div>
           </Link>
         </nav>
+          <div>
+              <span className=" items-center px-2.5 py-0.5 rounded-md text-sm font-medium bg-red-100 text-red-800">
+                 1 ethereum 
+              </span>
+              <span className="inline-flex items-center px-2.5 py-0.5 rounded-md text-sm font-medium bg-gray-100 text-gray-800">
+                  =
+              </span>
+              <span className="items-center px-2.5 py-0.5 mb-5 rounded-md text-sm font-medium bg-purple-100 text-purple-800">
+                  £{gbpToEth}
+              </span>
+              <span className="inline-flex items-center px-2.5 py-0.5 rounded-md text-sm font-medium bg-gray-100 text-gray-800">
+                  /
+              </span>
+              <span className="items-center px-2.5 py-0.5 mb-5 rounded-md text-sm font-medium bg-purple-100 text-purple-800">
+                 ${usdToEth}
+          </span>
       </div>
+        </div>
       <div className={styles.container}>
         <Head>
           <title>Project C</title>
           <link rel="icon" href="/favicon.ico" />
         </Head>
 
-        {isActive === 'home' ? <Stat1 conversion_result={conversion_result} PROJECTC={PROJECTC} /> : isActive === 'GPU' ? <HardwareTable PROJECTC={PROJECTC} /> : null}
-        {/*  <MinerHistory toggleEnabled/>} */}
+
+        {isActive === 'home' ? <Stat1 conversion_result={conversion_result} PROJECTC={PROJECTC} /> : isActive === 'GPU' ? <HardwareTable PROJECTC={PROJECTC} /> : <MinerHistory toggleEnabled/>}
 
 
 
