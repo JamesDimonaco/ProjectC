@@ -99,7 +99,7 @@ export default function Home(props) {
         </Head>
 
 
-        {isActive === 'home' ? <Stat1 conversion_result={conversion_result} PROJECTC={PROJECTC} /> : isActive === 'GPU' ? <HardwareTable PROJECTC={PROJECTC} /> : <MinerHistory toggleEnabled/>}
+        {isActive === 'home' ? <Stat1 conversion_result={conversion_result} PROJECTC={PROJECTC} /> : isActive === 'GPU' ? <HardwareTable PROJECTC={PROJECTC} /> : <MinerHistory/>}
 
 
 
