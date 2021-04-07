@@ -67,7 +67,7 @@ export default function Stat1({PROJECTC,conversion_result}){
                   monthly estimated revenue (GBP)
                   </dt>
                   <dd className="mt-1 text-3xl font-semibold text-gray-900">
-                    £{conversion_result.toFixed(2)} <p/>
+                    £{(conversion_result).toFixed(2)} <p/>
                   </dd>
                   <dt className="text-sm font-medium text-gray-500 truncate">
                   monthly estimated revenue (USD)
