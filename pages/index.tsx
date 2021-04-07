@@ -23,10 +23,11 @@ export async function getServerSideProps(context) {
   const { PROJECTC } = asyncResponse.data
 
   const { usd_month } =  PROJECTC.revenue
-  const API_KEY = 'ff1e6a7dd75bf48d6bab03f9'
+  const API_KEY = '006a1209147317df4b8ca387'
   const asyncGBPResponse = await axios.get(`https://v6.exchangerate-api.com/v6/${API_KEY}/pair/USD/GBP/${usd_month}`)
   const { conversion_result } = asyncGBPResponse.data
 
+  
   
   return {
     props: {
@@ -43,7 +44,6 @@ export async function getServerSideProps(context) {
 }
 
 export default function Home(props) {
-
   const { PROJECTC } = props;
   const { conversion_result } = props;
   const { gbpToEth, usdToEth } = props;
