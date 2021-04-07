@@ -1,16 +1,20 @@
+
+import Link from 'next/link';
 import Head from "next/head";
+
 import styles from "../styles/Home.module.css";
 import Stat1 from '../components/stats/Stat1'
 import HardwareTable from '../components/hardware/HardwareTable'
 import MinerHistory from '../components/history/MinerHistory'
 import React, { useState } from "react";
+import firebase from 'firebase/app'
 
-import Link from 'next/link';
+import { functions } from '../lib/firebase'
+
+
 
 
 import axios from 'axios'
-
-
 
 
 export async function getServerSideProps(context) {
@@ -42,13 +46,19 @@ export async function getServerSideProps(context) {
   
 }
 
+
+
+
 export default function Home(props) {
+
 
   const { PROJECTC } = props;
   const { conversion_result } = props;
   const { gbpToEth, usdToEth } = props;
   const [isActive, setisActive] = useState('home');
 
+
+  
 
   return (
     <div>
@@ -99,7 +109,7 @@ export default function Home(props) {
         </Head>
 
 
-        {isActive === 'home' ? <Stat1 conversion_result={conversion_result} PROJECTC={PROJECTC} /> : isActive === 'GPU' ? <HardwareTable PROJECTC={PROJECTC} /> : <MinerHistory toggleEnabled/>}
+        {isActive === 'home' ? <Stat1 conversion_result={conversion_result} PROJECTC={PROJECTC} /> : isActive === 'GPU' ? <HardwareTable PROJECTC={PROJECTC} /> : <MinerHistory/>}
 
 
 
