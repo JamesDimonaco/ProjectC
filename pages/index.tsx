@@ -87,13 +87,13 @@ export default function Home(props) {
                   =
               </span>
               <span className="items-center px-2.5 py-0.5 mb-5 rounded-md text-sm font-medium bg-purple-100 text-purple-800">
-                  £{gbpToEth}
+                  {new Intl.NumberFormat('gb-GB', { style: 'currency', currency: 'GBP' }).format(gbpToEth)}
               </span>
               <span className="inline-flex items-center px-2.5 py-0.5 rounded-md text-sm font-medium bg-gray-100 text-gray-800">
                   /
               </span>
               <span className="items-center px-2.5 py-0.5 mb-5 rounded-md text-sm font-medium bg-purple-100 text-purple-800">
-                 ${usdToEth}
+                 {new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(usdToEth)}
           </span>
       </div>
       <div className='Btc'>
@@ -104,13 +104,13 @@ export default function Home(props) {
                   =
               </span>
               <span className="items-center px-2.5 py-0.5 mb-5 rounded-md text-sm font-medium bg-purple-100 text-purple-800">
-                  £{gbpToBtc}
+                  {new Intl.NumberFormat('gb-GB', { style: 'currency', currency: 'GBP' }).format(gbpToBtc)}
               </span>
               <span className="inline-flex items-center px-2.5 py-0.5 rounded-md text-sm font-medium bg-gray-100 text-gray-800">
                   /
               </span>
               <span className="items-center px-2.5 py-0.5 mb-5 rounded-md text-sm font-medium bg-purple-100 text-purple-800">
-                 ${usdToBtc}
+                 {new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(usdToBtc)}
           </span>
       </div>
         </div>
