@@ -15,9 +15,12 @@ import axios from 'axios'
 
 export async function getServerSideProps(context) {
   const etherResponse = await axios.get('https://api.coingecko.com/api/v3/simple/price?ids=ethereum&vs_currencies=gbp%2Cusd')
-  console.log(etherResponse.data.ethereum.gbp);
   const { gbp } = etherResponse.data.ethereum;
   const { usd } = etherResponse.data.ethereum;
+
+  const bitcoinResponse = await axios.get('https://api.coingecko.com/api/v3/simple/price?ids=bitcoin&vs_currencies=gbp%2Cusd')
+  const  gbpToBtc  = bitcoinResponse.data.bitcoin.gbp;
+  const  usdToBtc  = bitcoinResponse.data.bitcoin.usd;
 
   const asyncResponse = await axios.get("https://api.minerstat.com/v2/stats/vegl2iu7ov3b")
   const { PROJECTC } = asyncResponse.data
@@ -35,7 +38,8 @@ export async function getServerSideProps(context) {
       conversion_result: conversion_result,
       gbpToEth: gbp,
       usdToEth: usd,
-
+      gbpToBtc: gbpToBtc,
+      usdToBtc: usdToBtc
 
     }
   }
@@ -44,10 +48,11 @@ export async function getServerSideProps(context) {
 }
 
 export default function Home(props) {
-  const { PROJECTC } = props;
-  const { conversion_result } = props;
-  const { gbpToEth, usdToEth } = props;
+  const { gbpToEth, usdToEth, gbpToBtc, usdToBtc, conversion_result, PROJECTC} = props;
   const [isActive, setisActive] = useState('home');
+
+
+
 
 
   return (
@@ -74,9 +79,9 @@ export default function Home(props) {
             </div>
           </Link>
         </nav>
-          <div>
-              <span className=" items-center px-2.5 py-0.5 rounded-md text-sm font-medium bg-red-100 text-red-800">
-                 1 ethereum 
+          <div className='Eth'>
+              <span className=" items-center px-2.5 py-0.5 rounded-md text-sm font-medium bg-ether text-white">
+                 1 Ethereum 
               </span>
               <span className="inline-flex items-center px-2.5 py-0.5 rounded-md text-sm font-medium bg-gray-100 text-gray-800">
                   =
@@ -89,6 +94,23 @@ export default function Home(props) {
               </span>
               <span className="items-center px-2.5 py-0.5 mb-5 rounded-md text-sm font-medium bg-purple-100 text-purple-800">
                  ${usdToEth}
+          </span>
+      </div>
+      <div className='Btc'>
+              <span className=" items-center px-2.5 py-0.5 rounded-md text-sm font-medium bg-bitcoin">
+                 1 Bitcoin 
+              </span>
+              <span className="inline-flex items-center px-2.5 py-0.5 rounded-md text-sm font-medium bg-gray-100 text-gray-800">
+                  =
+              </span>
+              <span className="items-center px-2.5 py-0.5 mb-5 rounded-md text-sm font-medium bg-purple-100 text-purple-800">
+                  £{gbpToBtc}
+              </span>
+              <span className="inline-flex items-center px-2.5 py-0.5 rounded-md text-sm font-medium bg-gray-100 text-gray-800">
+                  /
+              </span>
+              <span className="items-center px-2.5 py-0.5 mb-5 rounded-md text-sm font-medium bg-purple-100 text-purple-800">
+                 ${usdToBtc}
           </span>
       </div>
         </div>
