@@ -1,8 +1,10 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import Link from 'next/link';
 
 import axios from 'axios'
 import {firestore} from '../../lib/firebase'
+import {dateSelected} from '../../lib/context'
+
 
 interface history {
     time: number;
@@ -20,6 +22,7 @@ export default function minerHistory(firestoreData) {
 
   }, [])
 
+  const { setDate } = useContext(dateSelected)
 
   const [compData, setCompData] = useState([])
   let dates = []
@@ -38,8 +41,13 @@ export default function minerHistory(firestoreData) {
   dates.push(doc.id)
 });
 
+const passDate = (date) => {
+  
+  setDate(date)
+}
+
      setCompData(dates.map((date) => (
-       <>
+       <div onClick={() => passDate(date)}>
       <Link href={{
       pathname: '/minerHistory/[date]',
       query: {date: date},
@@ -61,7 +69,7 @@ export default function minerHistory(firestoreData) {
 
   </li>
                   </Link>
-                  </>
+                  </div>
 
      )))}
  

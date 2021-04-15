@@ -2,14 +2,22 @@ import Link from "next/link";
 import styles from "../../styles/Home.module.css";
 import {useContext} from 'react'
 import {dateSelected} from '../../lib/context'
- 
+import {firestore} from '../../lib/firebase'
+
 
   
   export default function date() {
 
 const { date } = useContext(dateSelected)
 
-      console.log(date);
+    const getData = async () => {
+      const response = firestore.collection("MinerData").doc(date).collection('PROJECTC')
+      const data = await response.get()
+
+      console.log(data.docs[0].Status);
+    }
+    getData();
+
     return (
     <div className={styles.container}>
         <Link href='/'>
@@ -20,6 +28,7 @@ const { date } = useContext(dateSelected)
         Return home
       </button>
       </Link>
+
       </div>
     )
   }
