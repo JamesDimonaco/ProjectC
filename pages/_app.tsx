@@ -3,7 +3,7 @@ import 'tailwindcss/tailwind.css'
 
 
 import { AppProps } from 'next/app'
-import { UserContext } from '../lib/context'
+import { dateSelected } from '../lib/context'
 import { useUserData } from '../lib/hooks';
 
 
@@ -13,9 +13,9 @@ function App({ Component, pageProps }: AppProps) {
 
 
   return (
-  <UserContext.Provider value={userData}>
+  <dateSelected.Provider value={{date: 'test'}}>
     <Component {...pageProps} />
-  </UserContext.Provider>
+  </dateSelected.Provider>
 
   )
 }

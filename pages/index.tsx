@@ -4,6 +4,7 @@ import Stat1 from '../components/stats/Stat1'
 import HardwareTable from '../components/hardware/HardwareTable'
 import MinerHistory from '../components/history/MinerHistory'
 import React, { useState } from "react";
+import {firestore} from '../lib/firebase'
 
 import Link from 'next/link';
 
@@ -14,6 +15,9 @@ import axios from 'axios'
 
 
 export async function getServerSideProps(context) {
+  const response = firestore.collection("MinerData")
+  const data = await response.get()
+
   const etherResponse = await axios.get('https://api.coingecko.com/api/v3/simple/price?ids=ethereum&vs_currencies=gbp%2Cusd')
   const { gbp } = etherResponse.data.ethereum;
   const { usd } = etherResponse.data.ethereum;
@@ -39,7 +43,8 @@ export async function getServerSideProps(context) {
       gbpToEth: gbp,
       usdToEth: usd,
       gbpToBtc: gbpToBtc,
-      usdToBtc: usdToBtc
+      usdToBtc: usdToBtc,
+      firestore: JSON.stringify(data.docs)
 
     }
   }
@@ -48,9 +53,8 @@ export async function getServerSideProps(context) {
 }
 
 export default function Home(props) {
-  const { gbpToEth, usdToEth, gbpToBtc, usdToBtc, conversion_result, PROJECTC} = props;
+  const { gbpToEth, usdToEth, gbpToBtc, usdToBtc, conversion_result, PROJECTC, firestore} = props;
   const [isActive, setisActive] = useState('home');
-
 
 
 
@@ -73,9 +77,9 @@ export default function Home(props) {
             <span aria-hidden="true" className={`${isActive === 'history' ? 'bg-indigo-500' : 'text-gray-500 hover:text-gray-700'} absolute inset-x-0 bottom-0 h-0.5`}></span>
           </div>
           <Link href="/connect">
-            <div className="text-gray-500 hover:text-gray-700 rounded-r-lg group relative min-w-0 flex-1 overflow-hidden bg-white py-4 px-4 text-sm font-medium text-center hover:bg-gray-50 focus:z-10">
+            <div onClick={() => setisActive('login')} className={`${isActive === 'login' ? 'text-gray-900' : 'text-gray-500 hover:text-gray-700'} group relative min-w-0 flex-1 overflow-hidden bg-white py-4 px-4 text-sm font-medium text-center hover:bg-gray-50 focus:z-10`}>
               <span>Login</span>
-              <span aria-hidden="true" className="bg-transparent absolute inset-x-0 bottom-0 h-0.5"></span>
+              <span aria-hidden="true" className={`${isActive === 'login' ? 'bg-indigo-500' : 'text-gray-500 hover:text-gray-700'} absolute inset-x-0 bottom-0 h-0.5`}></span>
             </div>
           </Link>
         </nav>
@@ -121,7 +125,7 @@ export default function Home(props) {
         </Head>
 
 
-        {isActive === 'home' ? <Stat1 conversion_result={conversion_result} PROJECTC={PROJECTC} /> : isActive === 'GPU' ? <HardwareTable PROJECTC={PROJECTC} /> : null}
+        {isActive === 'home' ? <Stat1 conversion_result={conversion_result} PROJECTC={PROJECTC} /> : isActive === 'GPU' ? <HardwareTable PROJECTC={PROJECTC} /> : <MinerHistory firestoreData={firestore} />}
 
 
 
