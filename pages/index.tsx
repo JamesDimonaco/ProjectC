@@ -4,10 +4,6 @@ import Stat1 from '../components/stats/Stat1'
 import HardwareTable from '../components/hardware/HardwareTable'
 import MinerHistory from '../components/history/MinerHistory'
 import React, { useState } from "react";
-import {firestore} from '../lib/firebase'
-
-import Link from 'next/link';
-
 
 import axios from 'axios'
 
@@ -15,8 +11,6 @@ import axios from 'axios'
 
 
 export async function getServerSideProps(context) {
-  const response = firestore.collection("MinerData")
-  const data = await response.get()
 
   const etherResponse = await axios.get('https://api.coingecko.com/api/v3/simple/price?ids=ethereum&vs_currencies=gbp%2Cusd')
   const { gbp } = etherResponse.data.ethereum;
@@ -44,8 +38,6 @@ export async function getServerSideProps(context) {
       usdToEth: usd,
       gbpToBtc: gbpToBtc,
       usdToBtc: usdToBtc,
-      firestore: JSON.stringify(data.docs)
-
     }
   }
 
@@ -76,12 +68,10 @@ export default function Home(props) {
             <span>History</span>
             <span aria-hidden="true" className={`${isActive === 'history' ? 'bg-indigo-500' : 'text-gray-500 hover:text-gray-700'} absolute inset-x-0 bottom-0 h-0.5`}></span>
           </div>
-          <Link href="/connect">
             <div onClick={() => setisActive('login')} className={`${isActive === 'login' ? 'text-gray-900' : 'text-gray-500 hover:text-gray-700'} group relative min-w-0 flex-1 overflow-hidden bg-white py-4 px-4 text-sm font-medium text-center hover:bg-gray-50 focus:z-10`}>
               <span>Login</span>
               <span aria-hidden="true" className={`${isActive === 'login' ? 'bg-indigo-500' : 'text-gray-500 hover:text-gray-700'} absolute inset-x-0 bottom-0 h-0.5`}></span>
             </div>
-          </Link>
         </nav>
           <div className='Eth'>
               <span className=" items-center px-2.5 py-0.5 rounded-md text-sm font-medium bg-ether text-white">

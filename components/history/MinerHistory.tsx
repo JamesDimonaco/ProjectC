@@ -1,18 +1,9 @@
 import React, { useContext, useEffect, useState } from "react";
 import Link from 'next/link';
 
-import axios from 'axios'
 import {firestore} from '../../lib/firebase'
 import {dateSelected} from '../../lib/context'
 
-
-interface history {
-    time: number;
-    averageHashrate: number;
-    currentHashrate: number;
-    validShares: number;
-    invalidShares: number
-  }
 
 
 export default function minerHistory(firestoreData) {
@@ -28,16 +19,11 @@ export default function minerHistory(firestoreData) {
   let dates = []
 
   const getData = async () => {
-
-  // let data = firestore
-  // console.log(data);
-
  
 
   const minerRef = firestore.collection('MinerData');
   const snapshot = await minerRef.get();
   snapshot.forEach(doc => {
-  console.log(doc.id);
   dates.push(doc.id)
 });
 
@@ -47,12 +33,12 @@ const passDate = (date) => {
 }
 
      setCompData(dates.map((date) => (
-       <div onClick={() => passDate(date)}>
+       <div key={date} onClick={() => passDate(date)}>
       <Link href={{
       pathname: '/minerHistory/[date]',
       query: {date: date},
       }}>
-  <li key={date} className="col-span-1 bg-white rounded-lg shadow divide-y divide-gray-200">
+  <li  className="col-span-1 bg-white rounded-lg shadow divide-y divide-gray-200">
     <div className="w-full flex items-center justify-between p-6 space-x-6">
       <div className="flex-1 truncate">
         <div className="flex items-center space-x-3">
@@ -61,15 +47,14 @@ const passDate = (date) => {
             {'Online'}
           </span>
         </div>
-        <p className="mt-1 text-gray-500 text-sm truncate">{'extra info'}</p>
       </div>
     </div>
     <div>
         </div>
 
   </li>
-                  </Link>
-                  </div>
+    </Link>
+    </div>
 
      )))}
  
