@@ -24,6 +24,7 @@ export default function minerHistory(firestoreData) {
   const minerRef = firestore.collection('MinerData');
   const snapshot = await minerRef.get();
   snapshot.forEach(doc => {
+  console.log(doc.id);
   dates.push(doc.id)
 });
 
@@ -47,6 +48,7 @@ const passDate = (date) => {
             {'Online'}
           </span>
         </div>
+        <p className="mt-1 text-gray-500 text-sm truncate">{'extra info'}</p>
       </div>
     </div>
     <div>
