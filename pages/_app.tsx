@@ -10,7 +10,7 @@ import { useState } from 'react';
 
 function App({ Component, pageProps }: AppProps) {
 
-  const [date, setDate] = useState<any>('Thu Apr 15 2021')
+  const [date, setDate] = useState<any>('')
 
 
   return (

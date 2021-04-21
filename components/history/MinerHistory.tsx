@@ -13,7 +13,7 @@ export default function minerHistory() {
 
   }, [])
 
-  const { setDate } = useContext(dateSelected)
+  const { setDate } = useContext<any>(dateSelected)
 
   const [compData, setCompData] = useState([])
   let dates = []
