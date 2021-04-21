@@ -37,8 +37,6 @@ export default function HardwareTable({PROJECTC}){
                     </div>
                     <div className="mt-2 flex">
                       <div className="flex items-center text-sm text-gray-500">
-                        {/* Heroicon name: solid/calendar */}
-                      
                         <p>
                           Jobs done: {gpu.accepted} Hashrate: {gpu.speed} Fan speed: {gpu.fan}
                         </p>
