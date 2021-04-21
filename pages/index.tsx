@@ -3,17 +3,19 @@ import styles from "../styles/Home.module.css";
 import Stat1 from '../components/stats/Stat1'
 import HardwareTable from '../components/hardware/HardwareTable'
 import MinerHistory from '../components/history/MinerHistory'
+import Payout from '../components/payouts/Payouts'
 import React, { useState } from "react";
-
-import Link from 'next/link';
-
 
 import axios from 'axios'
 
 
 
 
-export async function getServerSideProps(context) {
+export async function getStaticProps() {
+  const miner = '0x80674294Ff952992e4F04744CeddB9AcD09B37b6'
+  const etherMineResponse = await axios.get(`https://api.ethermine.org/miner/${miner}/payouts`)
+  const etherMineData = etherMineResponse.data.data
+
   const etherResponse = await axios.get('https://api.coingecko.com/api/v3/simple/price?ids=ethereum&vs_currencies=gbp%2Cusd')
   const { gbp } = etherResponse.data.ethereum;
   const { usd } = etherResponse.data.ethereum;
@@ -39,26 +41,26 @@ export async function getServerSideProps(context) {
       gbpToEth: gbp,
       usdToEth: usd,
       gbpToBtc: gbpToBtc,
-      usdToBtc: usdToBtc
-
-    }
+      usdToBtc: usdToBtc,
+      payout: etherMineData,
+    },
+    revalidate: 30
   }
 
   
 }
 
 export default function Home(props) {
-  const { gbpToEth, usdToEth, gbpToBtc, usdToBtc, conversion_result, PROJECTC} = props;
+  const { gbpToEth, usdToEth, gbpToBtc, usdToBtc, conversion_result, PROJECTC, payout} = props;
   const [isActive, setisActive] = useState('home');
 
-
-
+    // console.log(conversion_result);
 
 
   return (
     <div>
       <div>
-        <nav className="relative z-0 rounded-lg shadow flex divide-x divide-gray-200" aria-label="Tabs">
+        <nav className="position: absolute relative z-0 rounded-lg shadow flex divide-x divide-gray-200" aria-label="Tabs">
           {/* Current: "text-gray-900", Default: "text-gray-500 hover:text-gray-700" */}
           <div onClick={() => setisActive('home')} className={`${isActive === 'home' ? 'text-gray-900' : 'text-gray-500 hover:text-gray-700'} rounded-l-lg group relative min-w-0 flex-1 overflow-hidden bg-white py-4 px-4 text-sm font-medium text-center hover:bg-gray-50 focus:z-10`} aria-current="page">
             <span>Home</span>
@@ -72,12 +74,10 @@ export default function Home(props) {
             <span>History</span>
             <span aria-hidden="true" className={`${isActive === 'history' ? 'bg-indigo-500' : 'text-gray-500 hover:text-gray-700'} absolute inset-x-0 bottom-0 h-0.5`}></span>
           </div>
-          <Link href="/connect">
-            <div className="text-gray-500 hover:text-gray-700 rounded-r-lg group relative min-w-0 flex-1 overflow-hidden bg-white py-4 px-4 text-sm font-medium text-center hover:bg-gray-50 focus:z-10">
-              <span>Login</span>
-              <span aria-hidden="true" className="bg-transparent absolute inset-x-0 bottom-0 h-0.5"></span>
+            <div onClick={() => setisActive('payouts')} className={`${isActive === 'payouts' ? 'text-gray-900' : 'text-gray-500 hover:text-gray-700'} group relative min-w-0 flex-1 overflow-hidden bg-white py-4 px-4 text-sm font-medium text-center hover:bg-gray-50 focus:z-10`}>
+              <span>Payouts</span>
+              <span aria-hidden="true" className={`${isActive === 'payouts' ? 'bg-indigo-500' : 'text-gray-500 hover:text-gray-700'} absolute inset-x-0 bottom-0 h-0.5`}></span>
             </div>
-          </Link>
         </nav>
           <div className='Eth'>
               <span className=" items-center px-2.5 py-0.5 rounded-md text-sm font-medium bg-ether text-white">
@@ -121,7 +121,7 @@ export default function Home(props) {
         </Head>
 
 
-        {isActive === 'home' ? <Stat1 conversion_result={conversion_result} PROJECTC={PROJECTC} /> : isActive === 'GPU' ? <HardwareTable PROJECTC={PROJECTC} /> : null}
+        {isActive === 'home' ? <Stat1 conversion_result={conversion_result} PROJECTC={PROJECTC} /> : isActive === 'GPU' ? <HardwareTable PROJECTC={PROJECTC} /> : isActive === 'history' ?<MinerHistory /> : <Payout payoutDetails={payout} priceOf1Ethereum={gbpToEth}/>}
 
 
 
