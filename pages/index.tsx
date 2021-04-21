@@ -11,7 +11,7 @@ import axios from 'axios'
 
 
 
-export async function getServerSideProps(context) {
+export async function getStaticProps() {
   const miner = '0x80674294Ff952992e4F04744CeddB9AcD09B37b6'
   const etherMineResponse = await axios.get(`https://api.ethermine.org/miner/${miner}/payouts`)
   const etherMineData = etherMineResponse.data.data
@@ -43,7 +43,8 @@ export async function getServerSideProps(context) {
       gbpToBtc: gbpToBtc,
       usdToBtc: usdToBtc,
       payout: etherMineData,
-    }
+    },
+    revalidate: 30
   }
 
   
