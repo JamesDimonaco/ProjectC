@@ -7,6 +7,7 @@ import {dateSelected} from '../../lib/context'
 import {firestore} from '../../lib/firebase'
 import { CheckIcon } from '@heroicons/react/outline'
 
+import  LineChart  from '../../components/lineChart/LineChart'
 
 interface modalData {
   Status: string,
@@ -20,14 +21,20 @@ interface modalData {
   export default function date() {
     useEffect(() => {
       getData();
+      getChartData();
+
 
     }, [])
 
     const [hours, setHours] = useState([]);
     const [isOpen, setIsOpen] = useState(false);
     const [modalContent, setModalContent] = useState<modalData | undefined>(undefined);
+    const [stringHours, setStringHours] = useState([])
+    const [currentHash, setCurrentHash] = useState([])
 
     const { date } = useContext(dateSelected)
+
+   
 
     let hoursArry = []
 
@@ -42,7 +49,11 @@ interface modalData {
 
       data.forEach(doc => {
         hoursArry.push(doc.id)
-      });
+      })
+
+        setStringHours(hoursArry.sort(compareNumbers).map((e) => e >= 12 ? e+'PM' : e+'AM'))
+   
+       
 
       setHours(hoursArry.sort(compareNumbers).map((hour) => {
 
@@ -68,11 +79,21 @@ interface modalData {
         </a>
       </li>
 
-            
       
           </div>
+          
       )}))
+
     }
+
+    const getChartData = async () => {
+      let chartHash = []
+        const response3 = firestore.collection("MinerData").doc(date).collection('PROJECTC')
+        const collectionData = await response3.get()
+        collectionData.docs.map((e) => chartHash.push(e.data().currentHash.toFixed(3)))
+        setCurrentHash(chartHash)
+    }
+
     const getModalData = async (hour) => {
       const response2 = firestore.collection("MinerData").doc(date).collection('PROJECTC').doc(hour)
       const docData = await response2.get()
@@ -82,7 +103,6 @@ interface modalData {
     }
       const openModal = (modalRes) => {
 
-      console.log(modalRes)
       setModalContent({
         Status: modalRes.Status,
         currentHash : modalRes.currentHash,
@@ -108,6 +128,12 @@ interface modalData {
       </Link>
 
       <h1 className='mb-5'>{date}</h1>
+
+      <div className='w-4/5 h-60 '>
+      <LineChart chartHash={currentHash} hours={stringHours}/>
+
+      </div>
+
       <ul className='mx-auto grid grid-cols-2 gap-x-4 gap-y-8 sm:grid-cols-4 md:gap-x-6 lg:max-w-5xl lg:gap-x-8 lg:gap-y-12 xl:grid-cols-6'>
       {hours}
       </ul>
@@ -179,7 +205,9 @@ interface modalData {
         </div>
       </Dialog>
     </Transition.Root>
+
       </div>
     );
+
   }
   
